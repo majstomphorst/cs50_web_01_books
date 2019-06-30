@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+
+        <div class="col"></div>
+
+        <div class="col-md-6 form_container">
+            <h3>Register</h3>
+
+            <form action="" method="POST" novalidate>
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    {{ form.username(size=32, class="form-control", placeholder="Username") }}
+                </div>
+                <div class="form-group">
+                    {{ form.email(size=32, class="form-control", placeholder="Email") }}
+                </div>
+
+
+                <div class="form-group">
+                    {{ form.password(size=32, class="form-control", placeholder="Password") }}
+                </div>
+                <div class="form-group">
+                    {{ form.password2(size=32, class="form-control", placeholder="Password check") }}
+                </div>
+
+                <div class="form-group">l
+                    {{ form.submit(class="btnSubmit") }}
+                </div>
+            </form>
+
+        </div>
+
+        <div class="col"></div>
+    </div>
+{% endblock %}
