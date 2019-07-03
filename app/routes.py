@@ -9,13 +9,18 @@ from app.models import User, Book
 import csv
 
 @app.route("/")
-@app.route('/index')
+@app.route('/index', methods=['GET', 'POST'])
 def index():
+    form = SearchForm()
+    
+    if current_user.is_authenticated and form.validate_on_submit():
+        result = Book.query.filter_by(isbn=form.search.data).first()
+        rep = form.search.data
+        print("----------------")
+        print(rep)
 
-    if current_user.is_authenticated:
-        form = SearchForm()
 
-    return render_template("index.html", title="Home")
+    return render_template("index.html", title="Home", form=form)
 
 @app.route('/about')
 def about():
@@ -43,8 +48,6 @@ def login():
         
         login_user(user)
         return redirect(url_for('index'))
-
-
 
     return render_template("login.html", title="Login", form=form)
 

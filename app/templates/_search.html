@@ -1,6 +1,9 @@
-<form>
+<form action="" method="POST" novalidate>
     <div class="form-inline">
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="find book">
-      <button type="submit" class="btn btn-primary">Submit</button>
+      {{ form.hidden_tag() }}
+          {{ form.search(class="form-control", placeholder="Search:") }}
+      
+          {{ form.submit(class="btnSubmit") }}
+      
     </div>
  </form>
