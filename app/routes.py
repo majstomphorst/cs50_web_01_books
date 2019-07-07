@@ -6,29 +6,51 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.forms import LoginForm, RegisterForm, SearchForm
 from app.models import User, Book
 
+import requests
+
 import csv
 
 @app.route("/")
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/index')
 def index():
-    form = SearchForm()
-    
-    if current_user.is_authenticated and form.validate_on_submit():
-        result = Book.query.filter_by(isbn=form.search.data).first()
-        rep = form.search.data
-        print("----------------")
-        print(rep)
+    return render_template("index.html", title="Home")
 
-
-    return render_template("index.html", title="Home", form=form)
 
 @app.route('/about')
 def about():
     return "about page " # render_template("about.html", title="about")
 
+
+@app.route('/search', methods=['GET', 'POST'])
+@login_required
+def search():
+
+    form = SearchForm()
+    
+    if current_user.is_authenticated and form.validate_on_submit():
+        search_result = Book.query.filter(Book.isbn.contains(form.search.data)).all()
+        return render_template("search.html", title="Search", form=form, search_result=search_result)
+    
+    return render_template("search.html", title="Search", form=form)
+
+
+@app.route('/search_result/<isbn>')
+def search_result(isbn=None):
+
+    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "YwERiouZJhFQ1W1Qj0baWQ", 
+                                                                                    "isbns": "9781632168146"})
+    print(res.json())
+
+    tekst = requests.get("https://www.goodreads.com/book/id_to_work_id")
+    # show the post with the given id, the id is an integer
+
+    return render_template("search_result.html")
+
+
 @app.route('/contact')
 def contact():
     return "contact" 
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -92,7 +114,7 @@ def import_boosk_csv():
                 if isbnlib.is_isbn10(isbn):
                     isbn = isbnlib.to_isbn13(isbn)
 
-                book = Book(isbn=int(isbn),
+                book = Book(isbn=str(row[0]),
                             title=str(row[1]),
                             author=str(row[2]),
                             year=int(row[3]))

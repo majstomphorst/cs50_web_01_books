@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col-md-4">
+        {% include '_search.html' %}
+    </div>
+    <div class="col-md">
+        {% if search_result %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Isbn</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Auther</th>
+                        <th scope="col">Year</th>
+                        <th scope="col">link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for book in search_result %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ book.isbn }}</td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.year }}</td>
+                        <td><a href={{ url_for('search_result', isbn=book.isbn) }} class="badge badge-info">Info</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

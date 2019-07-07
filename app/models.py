@@ -8,6 +8,7 @@ from app import login
 def load_user(id):
     return User.query.get(int(id))
 
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -23,8 +24,9 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
+
 class Book(db.Model):
-    isbn = db.Column(db.Numeric(20), primary_key=True)
+    isbn = db.Column(db.String(20), primary_key=True)
     title = db.Column(db.String(256), index=True)
     author = db.Column(db.String(256), index=True)
     year = db.Column(db.Integer, index=True)
