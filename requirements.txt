@@ -9,7 +9,7 @@ isbnlib==3.9.8
 isbntools==4.3.20
 itsdangerous==1.1.0
 Jinja2==2.10.1
-Mako==1.0.12
+Mako==1.2.2
 MarkupSafe==1.1.1
 python-dateutil==2.8.0
 python-dotenv==0.10.3
